@@ -14,7 +14,7 @@ The project covers the complete analytics lifecycle from data generation to busi
 
 ### Executive Dashboard
 
-![Executive Dashboard](images/executive_dashboard.png.png)
+![Executive Dashboard](images/executive_dashboard.png)
 
 ---
 
@@ -205,15 +205,15 @@ The final dashboard contains three interactive pages:
 
 ### Executive Dashboard
 
-![Executive Dashboard](images/executive_dashboard.png.png)
+![Executive Dashboard](images/executive_dashboard.png)
 
 ### Customer Analytics Dashboard
 
-![Customer Analytics Dashboard](images/customer_analytics.png.png)
+![Customer Analytics Dashboard](images/customer_analytics.png)
 
 ### Product Performance Dashboard
 
-![Product Performance Dashboard](images/product_performance.png.png)
+![Product Performance Dashboard](images/product_performance.png)
 
 ---
 
