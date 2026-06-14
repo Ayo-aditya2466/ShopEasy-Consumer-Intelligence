@@ -1,0 +1,44 @@
+product_id,product_name,brand,category,base_price
+P0001,iPhone 15,Apple,Electronics,34641.09
+P0002,iPhone 15 Plus,Apple,Electronics,31956.55
+P0003,iPhone 15 Pro,Apple,Electronics,58768.42
+P0004,MacBook Air,Apple,Electronics,35069.78
+P0005,AirPods Pro,Apple,Electronics,108348.93
+P0006,Apple Watch Series 9,Apple,Electronics,33673.22
+P0007,Galaxy S24,Samsung,Electronics,21899.11
+P0008,Galaxy S24 Ultra,Samsung,Electronics,42680.93
+P0009,Galaxy Buds 3,Samsung,Electronics,20240.58
+P0010,Galaxy Watch 6,Samsung,Electronics,63194.04
+P0011,Samsung Smart TV,Samsung,Electronics,43183.83
+P0012,WH-1000XM5,Sony,Electronics,94927.49
+P0013,Bravia TV,Sony,Electronics,94141.68
+P0014,Xperia Smartphone,Sony,Electronics,61434.43
+P0015,Sony Soundbar,Sony,Electronics,44655.46
+P0016,Flip Speaker,JBL,Electronics,21857.44
+P0017,Charge Speaker,JBL,Electronics,27186.96
+P0018,Wave Beam Earbuds,JBL,Electronics,6042.34
+P0019,JBL PartyBox,JBL,Electronics,22443.05
+P0020,Airdopes 141,Boat,Electronics,6895.71
+P0021,Stone Speaker,Boat,Electronics,3596.63
+P0022,Boat Smart Ring,Boat,Electronics,9917.37
+P0023,Boat Wave Watch,Boat,Electronics,3822.17
+P0024,Air Max Shoes,Nike,Fashion,8392.85
+P0025,Sports Hoodie,Nike,Fashion,2119.68
+P0026,Running Shorts,Nike,Fashion,2965.02
+P0027,Training T-Shirt,Nike,Fashion,3701.55
+P0028,Ultraboost Shoes,Adidas,Fashion,4471.29
+P0029,Track Jacket,Adidas,Fashion,3842.63
+P0030,Training Tee,Adidas,Fashion,11050.39
+P0031,Sports Pants,Adidas,Fashion,9142.33
+P0032,Running Shoes,Puma,Fashion,6122.84
+P0033,Gym T-Shirt,Puma,Fashion,6150.57
+P0034,Sports Jacket,Puma,Fashion,6267.27
+P0035,Track Pants,Puma,Fashion,4981.56
+P0036,511 Jeans,Levis,Fashion,7901.0
+P0037,Denim Jacket,Levis,Fashion,7298.77
+P0038,Casual Shirt,Levis,Fashion,5695.19
+P0039,Slim Fit Jeans,Levis,Fashion,4297.28
+P0040,Oversized T-Shirt,H&M,Fashion,1505.34
+P0041,Cargo Pants,H&M,Fashion,3788.4
+P0042,Basic Hoodie,H&M,Fashion,3736.56
+P0043,Casual Sweatshirt,H&M,Fashion,3271.75
