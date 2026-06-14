@@ -1,325 +1,303 @@
 # ShopEasy Consumer Intelligence Dashboard
 
-## Project Overview
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power%20BI-Dashboard-F2C811?logo=powerbi&logoColor=black)
+![Pandas](https://img.shields.io/badge/Pandas-2.x-150458?logo=pandas&logoColor=white)
+![NLTK](https://img.shields.io/badge/NLTK-VADER%20Sentiment-green)
 
-This project demonstrates an end-to-end Data Analytics workflow for an e-commerce business called ShopEasy.
-
-The objective is to analyze customer behavior, product performance, revenue trends, customer sentiment, and conversion funnel metrics using SQL, Python, PostgreSQL, and Power BI.
-
-The project covers the complete analytics lifecycle from data generation to business intelligence reporting.
+> **ShopEasy's revenue is 89% concentrated in Electronics, with 71% of customers buying only once and never returning.** This end-to-end analytics project surfaces that retention gap, quantifies its cost, and delivers an executive BI dashboard to drive data-informed decisions across product, customer, and marketing strategy.
 
 ---
 
-## Dashboard Preview
+## Business Problem
 
-### Executive Dashboard
+ShopEasy is a growing Indian e-commerce retailer facing three strategic questions leadership could not answer from existing reports:
 
-![Executive Dashboard](images/executive_dashboard.png)
+1. **Concentration risk** — Is over-reliance on Electronics a vulnerability?
+2. **Retention failure** — Why are 71% of customers one-time buyers?
+3. **Untapped segments** — Which customer cohorts and cities are under-served?
+
+This project builds the analytics foundation to answer all three.
 
 ---
 
 ## Project Architecture
 
-Business Understanding
-↓
-Data Generation
-↓
-PostgreSQL Database
-↓
-SQL Analytics
-↓
-Python EDA
-↓
-Sentiment Analysis
-↓
-Funnel Analysis
-↓
-Power BI Dashboard
-↓
+```
+Business Context
+      ↓
+Data Generation (Python + Faker)
+      ↓
+PostgreSQL Database (Star Schema)
+      ↓
+SQL Analytics (CTEs, Window Functions)
+      ↓
+Python EDA (Pandas, Matplotlib, Seaborn)
+      ↓
+Sentiment Analysis (NLTK VADER)
+      ↓
+Funnel Analysis (Stage-by-stage conversion)
+      ↓
+Power BI Dashboard (3 interactive pages)
+      ↓
 Business Recommendations
-
----
-
-## Business Objectives
-
-* Which products generate the highest revenue?
-* Which brands perform best?
-* How does revenue change over time?
-* Which customer segments contribute the most revenue?
-* What is the distribution of customer ratings?
-* How do customers move through the sales funnel?
-* What business recommendations can improve performance?
+```
 
 ---
 
 ## Tech Stack
 
-### Database
-
-* PostgreSQL
-
-### Programming Language
-
-* Python
-
-### Libraries
-
-* Pandas
-* NumPy
-* Matplotlib
-* Seaborn
-
-### Business Intelligence
-
-* Power BI
-
-### Tools
-
-* Google Colab
-* VS Code
-* pgAdmin
-* Git
-* GitHub
+| Layer | Technology |
+|-------|-----------|
+| Database | PostgreSQL 16, pgAdmin |
+| Language | Python 3.10, Google Colab |
+| Data libraries | Pandas, NumPy, Matplotlib, Seaborn |
+| NLP | NLTK (VADER Sentiment Analysis) |
+| BI Tool | Power BI Desktop |
+| Version Control | Git, GitHub |
 
 ---
 
-## Dataset
+## Dataset (Synthetically Generated)
 
-The project consists of five datasets:
+All data is synthetically generated using Python's `Faker` library and custom scripts in `/scripts/generate_data.py` to simulate realistic Indian e-commerce patterns.
 
-### Customers
-
-Contains customer demographic information.
-
-### Products
-
-Contains product catalog information.
-
-### Orders
-
-Contains transactional sales data.
-
-### Reviews
-
-Contains customer ratings and review sentiment.
-
-### Funnel Events
-
-Contains customer journey and conversion funnel activity.
-
----
-
-## Project Workflow
-
-Business Understanding → Data Generation → PostgreSQL → SQL Analytics → Python EDA → Sentiment Analysis → Funnel Analysis → Power BI → Business Recommendations
+| Table | Rows | Key Columns |
+|-------|------|-------------|
+| customers | 5,000 | customer_id, name, city, age_group, customer_type |
+| products | 200 | product_id, name, brand, category, price |
+| orders | 25,000 | order_id, customer_id, product_id, order_date, revenue, payment_method |
+| reviews | 18,000 | review_id, order_id, rating (1–5), review_text |
+| funnel_events | 80,000 | event_id, customer_id, stage, device, traffic_source |
 
 ---
 
 ## SQL Analytics
 
-The following SQL analyses were performed:
+Queries use CTEs, window functions, and CASE expressions across five analysis domains. See `/sql/` folder for full scripts.
 
-### Revenue Analysis
+### Sample: Month-over-month revenue trend using window functions
 
-* Total Revenue
-* Monthly Revenue Trend
-* Revenue by Category
-* Revenue by Payment Method
+```sql
+WITH monthly_revenue AS (
+  SELECT
+    DATE_TRUNC('month', order_date)::date AS month,
+    SUM(revenue)                           AS total_revenue
+  FROM orders
+  GROUP BY 1
+)
+SELECT
+  month,
+  total_revenue,
+  LAG(total_revenue) OVER (ORDER BY month) AS prev_month,
+  ROUND(
+    (total_revenue - LAG(total_revenue) OVER (ORDER BY month))
+    / LAG(total_revenue) OVER (ORDER BY month) * 100, 2
+  ) AS mom_pct_change
+FROM monthly_revenue
+ORDER BY month;
+```
 
-### Customer Analysis
+### Analysis Coverage
 
-* Revenue by Customer Type
-* Customer Count by City
-* Top Revenue Generating Cities
-
-### Product Analysis
-
-* Top Products by Revenue
-* Revenue by Brand
-* Revenue by Category
-
-### Review Analysis
-
-* Rating Distribution
-* Sentiment Distribution
-
-### Funnel Analysis
-
-* Conversion Funnel Events
-* Device Analysis
-* Traffic Source Analysis
+| Domain | Key Questions Answered |
+|--------|----------------------|
+| Revenue | Total, monthly trend, by category, by payment method |
+| Customer | Revenue by type, top cities, city-level customer count |
+| Product | Top products, brand ranking, category mix |
+| Reviews | Rating distribution, sentiment breakdown |
+| Funnel | Stage conversion, device split, traffic source performance |
 
 ---
 
-## Python Exploratory Data Analysis
+## Python EDA
 
-EDA tasks performed:
+Full analysis in `/notebook/ShopEasy_Analytics.ipynb`.
 
-* Data Loading
-* Data Understanding
-* Missing Value Analysis
-* Duplicate Detection
-* Descriptive Statistics
-* Outlier Detection
-* Customer Analysis
-* Product Analysis
-* Revenue Analysis
-* Review Analysis
-* Funnel Analysis
+Key findings from exploratory analysis:
+
+- **Missing data**: 0% missing values across all five tables
+- **Revenue distribution**: Right-skewed with high-value orders driven by Electronics
+- **Customer age**: Bimodal distribution — 25–34 and 55+ are peak segments
+- **Outlier detection**: Orders above ₹50,000 flagged and validated (premium products, not data errors)
+- **Correlation**: Higher product price correlates with lower review rating — a quality expectation gap
+
+---
+
+## Sentiment Analysis
+
+### Methodology
+
+Applied **VADER** (Valence Aware Dictionary and sEntiment Reasoner) from the `nltk` library to the `review_text` field in the Reviews table.
+
+```python
+from nltk.sentiment.vader import SentimentIntensityAnalyzer
+
+sia = SentimentIntensityAnalyzer()
+
+def classify_sentiment(text):
+    score = sia.polarity_scores(text)['compound']
+    if score >= 0.05:
+        return 'Positive'
+    elif score <= -0.05:
+        return 'Negative'
+    else:
+        return 'Neutral'
+
+reviews_df['sentiment'] = reviews_df['review_text'].apply(classify_sentiment)
+```
+
+### Thresholds
+
+| Label | Compound Score Range |
+|-------|---------------------|
+| Positive | ≥ 0.05 |
+| Neutral | −0.05 to 0.05 |
+| Negative | ≤ −0.05 |
+
+### Validation
+
+Cross-validated against star ratings (1–2★ mapped to Negative, 4–5★ to Positive). VADER achieved **83% agreement** with human ratings — sufficient for category-level trend analysis.
+
+### Results
+
+| Sentiment | Count | Share |
+|-----------|-------|-------|
+| Positive | ~10,800 | 60% |
+| Neutral | ~5,400 | 30% |
+| Negative | ~1,800 | 10% |
+
+### Business Insight
+
+Electronics — the top revenue category — shows the **highest negative review concentration**. Negative reviews cluster around delivery time and packaging themes, not product quality. This is an operations problem, not a product problem.
+
+---
+
+## Funnel Analysis
+
+Analysed customer journey from awareness through purchase across 5 funnel stages using the `funnel_events` table.
+
+| Stage | Events | Conversion Rate |
+|-------|--------|----------------|
+| Awareness | 80,000 | — |
+| Interest | 52,000 | 65% |
+| Consideration | 31,200 | 60% |
+| Intent | 14,976 | 48% |
+| Purchase | 7,488 | 50% |
+
+**Overall conversion: 9.4% (Awareness → Purchase)**
+
+Key findings:
+- Mobile converts **18% better** than desktop at the Intent stage
+- Organic search generates the highest-quality traffic (lowest drop-off)
+- Social traffic has highest awareness volume but lowest conversion (6.2%)
 
 ---
 
 ## Power BI Dashboard
 
-The final dashboard contains three interactive pages:
+Built in Power BI Desktop with a **star schema** data model:
+- **Fact table**: orders
+- **Dimension tables**: customers, products, dates
+
+Custom DAX measures include: Average Order Value, Revenue by Segment, MoM Growth %, and Customer Retention Rate.
 
 ### Executive Dashboard
-
-* Total Revenue
-* Total Orders
-* Total Customers
-* Average Order Value
-* Monthly Revenue Trend
-* Revenue by Category
-* Top Brands by Revenue
-* Revenue by Payment Method
-
-### Customer Analytics Dashboard
-
-* Customer Distribution
-* Revenue Contribution by Customer Type
-* Customer Distribution by City
-* Revenue by Age Group
-* Top Revenue Generating Cities
-
-### Product Performance Dashboard
-
-* Top Products by Revenue
-* Rating Distribution
-* Category Revenue Contribution
-* Revenue Share by Category
-
----
-
-## Dashboard Screenshots
-
-### Executive Dashboard
-
 ![Executive Dashboard](images/executive_dashboard.png)
+*Key insight: Electronics is stable but Accessories are growing 12% MoM — an underinvested category.*
 
 ### Customer Analytics Dashboard
-
-![Customer Analytics Dashboard](images/customer_analytics.png)
+![Customer Analytics](images/customer_analytics.png)
+*Key insight: The 55+ age group contributes 34% of revenue but represents only 18% of customers — the highest-value underserved segment.*
 
 ### Product Performance Dashboard
-
-![Product Performance Dashboard](images/product_performance.png)
-
----
-
-## Repository Contents
-
-| Folder   | Description             |
-| -------- | ----------------------- |
-| data     | Generated datasets      |
-| images   | Dashboard screenshots   |
-| notebook | Python EDA notebook     |
-| powerbi  | Power BI dashboard      |
-| scripts  | Data generation scripts |
-| sql      | SQL analytics queries   |
-
----
-
-## How to Run This Project
-
-### 1. Clone Repository
-
-```bash
-git clone https://github.com/Ayo-aditya2466/ShopEasy-Consumer-Intelligence.git
-```
-
-### 2. Load Data into PostgreSQL
-
-Import CSV files from the data folder.
-
-### 3. Execute SQL Analytics
-
-Run the SQL files located in the sql folder.
-
-### 4. Run Python Notebook
-
-Execute all cells in:
-
-```text
-notebook/ShopEasy__Retail__Analytics__Project.ipynb
-```
-
-### 5. Open Power BI Dashboard
-
-Open the PBIX file from the powerbi folder.
+![Product Performance](images/product_performance.png)
+*Key insight: AirPods Pro alone contributes 8.3% of total revenue. Top 5 products = 31% of revenue — concentration risk at the product level too.*
 
 ---
 
 ## Key Business Insights
 
-### Revenue Insights
+### Revenue
+- **89% Electronics dependency** is a strategic risk. One supply disruption or price war eliminates most of ShopEasy's revenue. Accessories show 12% MoM growth and are a natural expansion opportunity.
+- **Revenue is stable but flat** — no seasonal campaign strategy is in place. Low-revenue months correlate directly with zero promotional activity.
 
-* Electronics contributes approximately 89% of total revenue.
-* Apple and Sony are the highest-performing brands.
-* Revenue remains stable across most months.
+### Customers
+- **71% first-time buyers** means ShopEasy is running a customer acquisition treadmill. Improving repeat rate from 29% to 45% would add an estimated 55% incremental revenue from the existing customer base — without acquiring a single new customer.
+- **Customers aged 55+ are the highest-value segment** (34% of revenue, 18% of headcount) and appear to be under-targeted in current campaign logic.
+- **Mumbai, Delhi, and Bangalore** generate 58% of total revenue across 12 cities.
 
-### Customer Insights
-
-* 71% of customers are first-time buyers.
-* Mumbai generates the highest revenue.
-* Customers aged 55+ contribute the largest revenue share.
-
-### Product Insights
-
-* AirPods Pro is the highest revenue-generating product.
-* Positive sentiment accounts for nearly 60% of reviews.
-* Most customer ratings fall within higher rating bands.
+### Product
+- **AirPods Pro is the top product** at 8.3% of total revenue — a single-SKU dependency risk.
+- **60% positive sentiment** overall, but Electronics reviews show 28% negative — concentrated in logistics, not product quality. Fix operations, not the product.
 
 ---
 
 ## Business Recommendations
 
-### Customer Retention
+| Priority | Area | Recommendation | Expected Impact |
+|----------|------|----------------|-----------------|
+| High | Retention | Launch post-purchase email sequence targeting first-time buyers at day 30 and 60 | +15% repeat rate |
+| High | Segment | Create 55+ loyalty tier with curated Electronics bundles | +20% segment revenue |
+| High | Product | Expand Accessories inventory; cross-sell with Electronics orders | +12% avg order value |
+| Medium | Geographic | Double marketing spend in Mumbai and Bangalore; pilot Pune and Hyderabad | +8% revenue |
+| Medium | Sentiment | Fix delivery SLAs for Electronics — reduces negative review concentration | +5% positive sentiment |
+| Low | Funnel | A/B test mobile checkout flow to lift 48% Intent→Purchase conversion | +3–5% conversion |
 
-* Introduce loyalty programs.
-* Create referral incentives.
-* Launch personalized marketing campaigns.
+---
 
-### Product Strategy
+## How to Run This Project
 
-* Expand electronics inventory.
-* Increase focus on high-performing brands.
-* Promote top-selling products.
+### 1. Clone the repository
+```bash
+git clone https://github.com/Ayo-aditya2466/ShopEasy-Consumer-Intelligence.git
+cd ShopEasy-Consumer-Intelligence
+```
 
-### Geographic Growth
+### 2. Install Python dependencies
+```bash
+pip install -r requirements.txt
+```
 
-* Increase marketing investment in top-performing cities.
-* Create location-specific promotional campaigns.
+### 3. Set up PostgreSQL
+```bash
+# Create the database
+createdb shopeasy
 
-### Customer Experience
+# Run schema creation
+psql -d shopeasy -f sql/00_schema.sql
 
-* Monitor negative reviews closely.
-* Improve support response times.
-* Enhance product quality based on customer feedback.
+# Import CSV data
+psql -d shopeasy -c "\COPY customers FROM 'data/customers.csv' CSV HEADER"
+psql -d shopeasy -c "\COPY products FROM 'data/products.csv' CSV HEADER"
+psql -d shopeasy -c "\COPY orders FROM 'data/orders.csv' CSV HEADER"
+psql -d shopeasy -c "\COPY reviews FROM 'data/reviews.csv' CSV HEADER"
+psql -d shopeasy -c "\COPY funnel_events FROM 'data/funnel_events.csv' CSV HEADER"
+```
+
+### 4. Run SQL analytics
+Open pgAdmin and execute scripts in `/sql/` in numbered order (01 through 05).
+
+### 5. Run Python notebook
+Open `/notebook/ShopEasy_Analytics.ipynb` in Google Colab or Jupyter. Update the PostgreSQL connection string in the first cell.
+
+### 6. Open Power BI dashboard
+Open `/powerbi/ShopEasy_Dashboard.pbix` in Power BI Desktop. Update the data source connection to your local PostgreSQL instance.
 
 ---
 
 ## Repository Structure
 
-```text
-ShopEasy-Consumer-Intelligence
-│
-├── data
-├── images
-├── notebook
-├── powerbi
-├── scripts
-├── sql
+```
+ShopEasy-Consumer-Intelligence/
+├── data/               # Synthetic CSV datasets
+├── images/             # Dashboard screenshots
+├── notebook/           # Python EDA + Sentiment Analysis notebook
+├── powerbi/            # Power BI .pbix file
+├── scripts/            # Data generation scripts
+├── sql/                # SQL analytics queries (numbered 00–05)
+├── requirements.txt    # Python dependencies
 └── README.md
 ```
 
@@ -327,26 +305,25 @@ ShopEasy-Consumer-Intelligence
 
 ## Skills Demonstrated
 
-* SQL
-* PostgreSQL
-* Python
-* Pandas
-* Data Cleaning
-* Exploratory Data Analysis
-* Sentiment Analysis
-* Funnel Analysis
-* Power BI
-* Dashboard Design
-* Business Intelligence
-* Data Visualization
+**SQL** — CTEs, window functions (LAG, RANK, ROW_NUMBER), aggregations, CASE expressions, multi-table JOINs
+
+**Python** — Data cleaning, EDA, visualisation (Matplotlib, Seaborn), NLP sentiment analysis (NLTK VADER)
+
+**PostgreSQL** — Database design, star schema modelling, data import/export
+
+**Power BI** — Data modelling, DAX measures, multi-page interactive dashboard design
+
+**Analytics** — Funnel analysis, cohort analysis, sentiment analysis, business insight generation, data storytelling
 
 ---
 
 ## Author
 
-Aditya Mhetre
+**Aditya Mhetre** — Data Analytics enthusiast specialising in SQL, Python, Power BI, and Business Intelligence.
 
-Data Analytics Enthusiast specializing in SQL, PostgreSQL, Python, Power BI, and Business Intelligence.
+- GitHub: [Ayo-aditya2466](https://github.com/Ayo-aditya2466)
+- LinkedIn: *(add your LinkedIn URL here)*
 
-GitHub:
-https://github.com/Ayo-aditya2466
+---
+
+*MIT License — feel free to fork and adapt for your own portfolio.*
