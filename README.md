@@ -66,10 +66,10 @@ All data is synthetically generated using Python's `Faker` library and custom sc
 | Table | Rows | Key Columns |
 |-------|------|-------------|
 | customers | 5,000 | customer_id, name, city, age_group, customer_type |
-| products | 200 | product_id, name, brand, category, price |
-| orders | 25,000 | order_id, customer_id, product_id, order_date, revenue, payment_method |
-| reviews | 18,000 | review_id, order_id, rating (1–5), review_text |
-| funnel_events | 80,000 | event_id, customer_id, stage, device, traffic_source |
+| products | 43 | product_id, name, brand, category, price |
+| orders | 20,000 | order_id, customer_id, product_id, order_date, revenue, payment_method |
+| reviews | 8,000 | review_id, order_id, rating (1–5), review_text |
+| funnel_events | 50,000 | event_id, customer_id, stage, device, traffic_source |
 
 ---
 
