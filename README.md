@@ -113,7 +113,7 @@ ORDER BY month;
 
 ## Python EDA
 
-Full analysis in `/notebook/ShopEasy_Analytics.ipynb`.
+Full analysis in `/notebook/ShopEasy__Retail__Analytics__Project.ipynb`.
 
 Key findings from exploratory analysis:
 
