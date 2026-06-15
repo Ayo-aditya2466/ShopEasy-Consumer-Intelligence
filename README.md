@@ -113,7 +113,7 @@ ORDER BY month;
 
 ## Python EDA
 
-Full analysis in `notebook/ShopEasy__Retail__Analytics__Project.ipynb`.
+Full analysis in `/notebook/ShopEasy__Retail__Analytics__Project.ipynb`.
 
 Key findings from exploratory analysis:
 
@@ -283,7 +283,7 @@ Open pgAdmin and execute scripts in `/sql/` in numbered order (01 through 05).
 Open `/notebook/ShopEasy_Analytics.ipynb` in Google Colab or Jupyter. Update the PostgreSQL connection string in the first cell.
 
 ### 6. Open Power BI dashboard
-Open `/powerbi/ShopEasy_Dashboard.pbix` in Power BI Desktop. Update the data source connection to your local PostgreSQL instance.
+Open `/powerbi/ShopEasy_Consumer_Intelligence_Dashboard.pbix` in Power BI Desktop. Update the data source connection to your local PostgreSQL instance.
 
 ---
 
