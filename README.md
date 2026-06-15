@@ -322,7 +322,7 @@ ShopEasy-Consumer-Intelligence/
 **Aditya Mhetre** — Data Analytics enthusiast specialising in SQL, Python, Power BI, and Business Intelligence.
 
 - GitHub: [Ayo-aditya2466](https://github.com/Ayo-aditya2466)
-- LinkedIn: *(add your LinkedIn URL here)*
+
 
 ---
 
